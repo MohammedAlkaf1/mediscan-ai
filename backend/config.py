@@ -36,12 +36,13 @@ class Settings(BaseSettings):
     OCR_LANGUAGE: str = "en"
     MIN_OCR_CONFIDENCE: float = 0.5
 
-    # CORS
-    CORS_ORIGINS: list = [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://127.0.0.1:3000",
-    ]
+    # CORS — comma-separated string in env, e.g.:
+    # CORS_ORIGINS=https://mediscan-ai.vercel.app,http://localhost:3000
+    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000"
+
+    @property
+    def cors_origins_list(self) -> list:
+        return [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]
 
     # AI / Gemini
     AI_PROVIDER: str = "gemini"          # gemini or openai
