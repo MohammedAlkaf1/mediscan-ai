@@ -12,10 +12,10 @@ psycopg2-binary==2.9.9
 alembic==1.12.1
 
 # OCR and Image Processing
-numpy<2
-easyocr==1.7.1
-opencv-python-headless==4.8.1.78
+numpy==1.26.4
+opencv-python-headless==4.10.0.84
 pillow==10.1.0
+easyocr==1.7.1
 
 # PDF Processing
 pdfplumber==0.10.3

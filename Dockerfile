@@ -16,6 +16,7 @@ WORKDIR /app
 
 # Copy and install Python dependencies
 COPY backend/requirements.txt .
+RUN pip install --no-cache-dir numpy==1.26.4
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
