@@ -1,0 +1,14 @@
+LABORATORY REPORT
+Patient: Sample Patient
+Date: 2024-01-15
+
+LIPID PANEL
+
+Test Name                  Value        Unit        Reference Range     
+Total Cholesterol          195         mg/dL       <200
+LDL Cholesterol            115         mg/dL       <100
+HDL Cholesterol            52          mg/dL       >40
+Triglycerides              140         mg/dL       <150
+VLDL Cholesterol           28          mg/dL       <30
+Non-HDL Cholesterol        143         mg/dL       <130
+Total/HDL Ratio            3.8                     <5.0

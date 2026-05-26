@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-darkest:  #27374D;
+  --brand-primary:  #526D82;
+  --brand-secondary:#9DB2BF;
+  --brand-lightest: #DDE6ED;
+  --brand-text:     #1a1a1a;
+}
+
+body {
+  color: var(--brand-text);
+  background-color: var(--brand-darkest);
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--brand-darkest); }
+::-webkit-scrollbar-thumb { background: var(--brand-secondary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }

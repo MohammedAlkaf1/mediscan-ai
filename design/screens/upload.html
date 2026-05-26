@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1440"/>
+<title>MediScan AI – Upload</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;width:1440px;display:flex;min-height:900px}
+
+.sidebar{width:240px;background:#fff;border-right:1px solid #e2e8f0;min-height:900px;display:flex;flex-direction:column}
+.sb-logo{padding:20px;display:flex;align-items:center;gap:9px;height:64px}
+.sb-logo-icon{width:32px;height:32px;background:#0f766e;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.sb-logo-icon svg{width:18px;height:18px;stroke:#fff;fill:none}
+.sb-logo-text{font-size:16px;font-weight:700;color:#0f172a}
+.sb-logo-text span{color:#0f766e}
+.sb-nav{padding:20px 12px;flex:1;display:flex;flex-direction:column;gap:2px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;text-decoration:none;font-size:13.5px;font-weight:500;color:#475569}
+.sb-item.active{background:#f0fdfa;color:#0f766e;font-weight:600}
+.sb-icon{font-size:16px}
+.sb-section{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.8px;padding:16px 12px 6px}
+.sb-user{padding:16px;border-top:1px solid #f1f5f9;display:flex;align-items:center;gap:10px}
+.sb-user-av{width:34px;height:34px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#1d4ed8;flex-shrink:0}
+.sb-user-name{font-size:13px;font-weight:600;color:#0f172a}
+.sb-user-role{font-size:11px;color:#94a3b8}
+
+.main{flex:1;display:flex;flex-direction:column}
+.topbar{height:64px;background:#fff;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.topbar-title{font-size:16px;font-weight:700;color:#0f172a}
+.topbar-breadcrumb{font-size:13px;color:#94a3b8;display:flex;align-items:center;gap:6px}
+.topbar-breadcrumb span{color:#0f172a;font-weight:600}
+
+.content{padding:32px;display:flex;gap:24px;flex:1}
+.upload-main{flex:1}
+.upload-side{width:300px}
+
+/* UPLOAD ZONE */
+.upload-zone{background:#fff;border-radius:16px;border:2px dashed #cbd5e1;padding:60px 40px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:20px}
+.upload-zone:hover{border-color:#0f766e;background:#f0fdfa}
+.uz-icon{font-size:52px;margin-bottom:16px}
+.uz-title{font-size:18px;font-weight:700;color:#0f172a;margin-bottom:8px}
+.uz-sub{font-size:14px;color:#64748b;margin-bottom:20px;line-height:1.55}
+.uz-btn{padding:11px 28px;background:#0f766e;color:#fff;border-radius:9px;font-size:14px;font-weight:600;border:none;cursor:pointer;margin-bottom:16px}
+.uz-types{display:flex;gap:8px;justify-content:center}
+.type-tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;background:#f1f5f9;color:#475569}
+
+/* PROGRESS STEPS */
+.progress-card{background:#fff;border-radius:16px;padding:24px;border:1px solid #e2e8f0;margin-bottom:20px}
+.pc-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:20px}
+.steps{display:flex;flex-direction:column;gap:0}
+.step-row{display:flex;align-items:flex-start;gap:14px;padding-bottom:0}
+.step-row:last-child .step-line{display:none}
+.step-indicator{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.sc-done{background:#dcfce7;color:#15803d;border:2px solid #22c55e}
+.sc-active{background:#dbeafe;color:#1d4ed8;border:2px solid #3b82f6}
+.sc-pending{background:#f1f5f9;color:#94a3b8;border:2px solid #e2e8f0}
+.step-line{width:2px;height:24px;background:#e2e8f0;margin:3px auto}
+.step-line.done{background:#22c55e}
+.step-content{padding-bottom:24px;flex:1;margin-top:4px}
+.step-content:last-child{padding-bottom:0}
+.step-name{font-size:13px;font-weight:600;color:#0f172a;margin-bottom:3px}
+.step-desc{font-size:12px;color:#64748b}
+.step-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px;margin-top:4px}
+.sb-done{background:#dcfce7;color:#15803d}
+.sb-active{background:#dbeafe;color:#1d4ed8}
+.sb-pending{background:#f1f5f9;color:#94a3b8}
+.spinner{display:inline-block;width:10px;height:10px;border:2px solid #3b82f6;border-top:2px solid transparent;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ERROR STATE */
+.error-card{background:#fff;border-radius:16px;padding:24px;border:1px solid #fecaca;background:#fef2f2;margin-bottom:20px}
+.ec-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ec-icon{font-size:20px}
+.ec-title{font-size:14px;font-weight:700;color:#dc2626}
+.ec-msg{font-size:13px;color:#7f1d1d;margin-bottom:14px;line-height:1.55}
+.ec-actions{display:flex;gap:10px}
+.btn-retry{padding:8px 16px;background:#dc2626;color:#fff;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer}
+.btn-cancel{padding:8px 16px;background:#fff;color:#374151;border-radius:8px;font-size:13px;font-weight:500;border:1.5px solid #e2e8f0;cursor:pointer}
+
+/* SIDE TIPS */
+.tips-card{background:#fff;border-radius:16px;padding:20px;border:1px solid #e2e8f0;margin-bottom:16px}
+.tips-title{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.tip-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:10px}
+.tip-item:last-child{margin-bottom:0}
+.tip-dot{width:18px;height:18px;border-radius:50%;background:#f0fdfa;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px}
+.tip-text{font-size:12px;color:#475569;line-height:1.55}
+
+.formats-card{background:#fff;border-radius:16px;padding:20px;border:1px solid #e2e8f0;margin-bottom:16px}
+.formats-title{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:12px}
+.format-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.format-row:last-child{margin-bottom:0}
+.fmt-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;width:44px;text-align:center}
+.fmt-pdf{background:#fee2e2;color:#dc2626}
+.fmt-png{background:#dbeafe;color:#1d4ed8}
+.fmt-jpg{background:#dcfce7;color:#15803d}
+.fmt-desc{font-size:12px;color:#64748b}
+
+.disclaimer{padding:14px 16px;background:#fffbeb;border-radius:10px;border:1px solid #fde68a;display:flex;gap:8px}
+.disc-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.disc-text{font-size:11px;color:#78350f;line-height:1.55}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M4.5 12a7.5 7.5 0 1115 0 7.5 7.5 0 01-15 0z"/></svg>
+    </div>
+    <span class="sb-logo-text">Medi<span>Scan</span></span>
+  </div>
+  <nav class="sb-nav">
+    <span class="sb-section">Main</span>
+    <a class="sb-item" href="#"><span class="sb-icon">🏠</span> Dashboard</a>
+    <a class="sb-item active" href="#"><span class="sb-icon">📤</span> Upload Report</a>
+    <a class="sb-item" href="#"><span class="sb-icon">📋</span> My Reports</a>
+    <span class="sb-section">Analytics</span>
+    <a class="sb-item" href="#"><span class="sb-icon">📈</span> Health Trends</a>
+    <a class="sb-item" href="#"><span class="sb-icon">📊</span> Analytics</a>
+    <span class="sb-section">Account</span>
+    <a class="sb-item" href="#"><span class="sb-icon">⚙️</span> Settings</a>
+    <a class="sb-item" href="#"><span class="sb-icon">❓</span> Help & FAQ</a>
+  </nav>
+  <div class="sb-user">
+    <div class="sb-user-av">AK</div>
+    <div>
+      <div class="sb-user-name">Ahmed Ali</div>
+      <div class="sb-user-role">Patient Account</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Upload Report</div>
+      <div class="topbar-breadcrumb">Dashboard / <span>Upload Report</span></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="upload-main">
+
+      <!-- UPLOAD ZONE -->
+      <div class="upload-zone">
+        <div class="uz-icon">📂</div>
+        <div class="uz-title">Drop your lab report here</div>
+        <p class="uz-sub">Drag and drop your file, or click to browse.<br/>Supported formats: PDF, PNG, JPG · Max size: 10 MB</p>
+        <button class="uz-btn">Browse Files</button>
+        <div class="uz-types">
+          <span class="type-tag">PDF</span>
+          <span class="type-tag">PNG</span>
+          <span class="type-tag">JPG</span>
+          <span class="type-tag">Max 10 MB</span>
+        </div>
+      </div>
+
+      <!-- PROGRESS CARD (active state — step 2 in progress) -->
+      <div class="progress-card">
+        <div class="pc-title">Processing: CBC_Report_Ahmed_Ali.pdf</div>
+        <div class="steps">
+
+          <div class="step-row">
+            <div class="step-indicator">
+              <div class="step-circle sc-done">✓</div>
+              <div class="step-line done"></div>
+            </div>
+            <div class="step-content">
+              <div class="step-name">File Uploaded</div>
+              <div class="step-desc">File received and validated (2.3 MB)</div>
+              <span class="step-badge sb-done">✓ Complete</span>
+            </div>
+          </div>
+
+          <div class="step-row">
+            <div class="step-indicator">
+              <div class="step-circle sc-active">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <div class="step-name">Extracting Text</div>
+              <div class="step-desc">OCR engine is reading your document…</div>
+              <span class="step-badge sb-active"><span class="spinner"></span>&nbsp; In Progress</span>
+            </div>
+          </div>
+
+          <div class="step-row">
+            <div class="step-indicator">
+              <div class="step-circle sc-pending">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <div class="step-name">Parsing Lab Values</div>
+              <div class="step-desc">Identifying test names, values, units, and reference ranges</div>
+              <span class="step-badge sb-pending">Waiting</span>
+            </div>
+          </div>
+
+          <div class="step-row">
+            <div class="step-indicator">
+              <div class="step-circle sc-pending">4</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <div class="step-name">Generating AI Explanation</div>
+              <div class="step-desc">Gemini AI will create a plain-language summary</div>
+              <span class="step-badge sb-pending">Waiting</span>
+            </div>
+          </div>
+
+          <div class="step-row">
+            <div class="step-indicator">
+              <div class="step-circle sc-pending">5</div>
+            </div>
+            <div class="step-content">
+              <div class="step-name">Report Ready</div>
+              <div class="step-desc">View results, download PDF, or share your report</div>
+              <span class="step-badge sb-pending">Waiting</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ERROR STATE EXAMPLE -->
+      <div class="error-card">
+        <div class="ec-header">
+          <span class="ec-icon">❌</span>
+          <span class="ec-title">Upload Failed — Unsupported File Type</span>
+        </div>
+        <p class="ec-msg">The file "blood_test.docx" is not supported. Please upload a PDF, PNG, or JPG file. Make sure the file is clear and legible for accurate OCR extraction.</p>
+        <div class="ec-actions">
+          <button class="btn-retry">Try Again</button>
+          <button class="btn-cancel">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDE PANEL -->
+    <div class="upload-side">
+      <div class="tips-card">
+        <div class="tips-title">💡 Tips for Best Results</div>
+        <div class="tip-item">
+          <div class="tip-dot">✓</div>
+          <p class="tip-text">Use high-resolution images or original PDF exports from your lab</p>
+        </div>
+        <div class="tip-item">
+          <div class="tip-dot">✓</div>
+          <p class="tip-text">Make sure the file is not password protected</p>
+        </div>
+        <div class="tip-item">
+          <div class="tip-dot">✓</div>
+          <p class="tip-text">Ensure the report is in English for the best OCR accuracy</p>
+        </div>
+        <div class="tip-item">
+          <div class="tip-dot">✓</div>
+          <p class="tip-text">Crop out unnecessary pages if uploading a multi-page PDF</p>
+        </div>
+        <div class="tip-item">
+          <div class="tip-dot">✓</div>
+          <p class="tip-text">Avoid blurry or skewed photographs of printed reports</p>
+        </div>
+      </div>
+
+      <div class="formats-card">
+        <div class="formats-title">Supported Formats</div>
+        <div class="format-row">
+          <span class="fmt-badge fmt-pdf">PDF</span>
+          <span class="fmt-desc">Best quality — digital exports</span>
+        </div>
+        <div class="format-row">
+          <span class="fmt-badge fmt-png">PNG</span>
+          <span class="fmt-desc">Lossless, ideal for screenshots</span>
+        </div>
+        <div class="format-row">
+          <span class="fmt-badge fmt-jpg">JPG</span>
+          <span class="fmt-desc">Photos, scanned documents</span>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        <span class="disc-icon">⚠️</span>
+        <p class="disc-text">MediScan AI is for educational and informational purposes only. It does not provide medical diagnosis or treatment advice. Always consult a licensed healthcare professional.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

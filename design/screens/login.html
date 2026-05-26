@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1440"/>
+<title>MediScan AI – Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;width:1440px;min-height:900px;display:flex}
+
+.left-panel{width:580px;min-height:900px;background:linear-gradient(160deg,#0f766e 0%,#0e7490 60%,#1e40af 100%);display:flex;flex-direction:column;justify-content:space-between;padding:56px 56px;position:relative;overflow:hidden}
+.left-panel::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.05)}
+.left-panel::after{content:'';position:absolute;bottom:-60px;left:-60px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.04)}
+.lp-logo{display:flex;align-items:center;gap:10px;z-index:1;position:relative}
+.lp-logo-icon{width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.lp-logo-icon svg{width:22px;height:22px;stroke:#fff;fill:none}
+.lp-logo-text{font-size:20px;font-weight:700;color:#fff}
+.lp-content{z-index:1;position:relative}
+.lp-tagline{font-size:32px;font-weight:800;color:#fff;line-height:1.25;letter-spacing:-0.5px;margin-bottom:16px}
+.lp-sub{font-size:15px;color:rgba(255,255,255,.7);line-height:1.65;margin-bottom:40px}
+.lp-features{display:flex;flex-direction:column;gap:14px}
+.lp-feat{display:flex;align-items:center;gap:12px}
+.lp-feat-icon{width:34px;height:34px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.lp-feat-text{font-size:13px;color:rgba(255,255,255,.85);font-weight:500}
+.lp-bottom{font-size:12px;color:rgba(255,255,255,.45);z-index:1;position:relative}
+
+.right-panel{flex:1;display:flex;align-items:center;justify-content:center;padding:60px}
+.login-card{background:#fff;border-radius:20px;padding:48px;width:420px;box-shadow:0 8px 40px rgba(15,23,42,.08),0 1px 3px rgba(15,23,42,.06);border:1px solid #f1f5f9}
+.lc-title{font-size:26px;font-weight:800;color:#0f172a;letter-spacing:-0.5px;margin-bottom:6px}
+.lc-sub{font-size:14px;color:#64748b;margin-bottom:36px}
+.lc-sub a{color:#0f766e;font-weight:600;text-decoration:none}
+
+.form-group{margin-bottom:20px}
+.form-label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px}
+.form-input{width:100%;padding:11px 14px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:14px;font-family:inherit;color:#0f172a;background:#fff;outline:none;transition:border-color .2s,box-shadow .2s}
+.form-input:focus{border-color:#0f766e;box-shadow:0 0 0 3px rgba(15,118,110,.1)}
+.form-input::placeholder{color:#94a3b8}
+.form-input-wrap{position:relative}
+.form-input-wrap .form-input{padding-left:40px}
+.input-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8}
+.form-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.remember{display:flex;align-items:center;gap:7px;font-size:13px;color:#475569;cursor:pointer}
+.remember input{width:15px;height:15px;accent-color:#0f766e;cursor:pointer}
+.forgot{font-size:13px;color:#0f766e;font-weight:600;text-decoration:none}
+
+.btn-login{width:100%;padding:13px;border-radius:9px;background:#0f766e;color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;letter-spacing:0.1px;margin-bottom:16px}
+.divider{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.divider-line{flex:1;height:1px;background:#e2e8f0}
+.divider-text{font-size:12px;color:#94a3b8;font-weight:500}
+.btn-demo{width:100%;padding:12px;border-radius:9px;background:#f8fafc;color:#475569;font-size:14px;font-weight:600;border:1.5px solid #e2e8f0;cursor:pointer}
+
+.register-link{text-align:center;margin-top:28px;font-size:13px;color:#64748b}
+.register-link a{color:#0f766e;font-weight:600;text-decoration:none}
+
+.disclaimer-note{margin-top:28px;padding:12px 14px;background:#fff7ed;border-radius:8px;border-left:3px solid #f59e0b;display:flex;gap:8px;align-items:flex-start}
+.dn-icon{font-size:14px;margin-top:1px}
+.dn-text{font-size:11px;color:#92400e;line-height:1.55}
+</style>
+</head>
+<body>
+
+<div class="left-panel">
+  <div class="lp-logo">
+    <div class="lp-logo-icon">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M4.5 12a7.5 7.5 0 1115 0 7.5 7.5 0 01-15 0z"/></svg>
+    </div>
+    <span class="lp-logo-text">MediScan AI</span>
+  </div>
+
+  <div class="lp-content">
+    <h2 class="lp-tagline">"Understand your<br/>lab reports with<br/>AI-powered clarity"</h2>
+    <p class="lp-sub">Upload any medical lab report and receive clear, plain-language explanations of every test result — instantly.</p>
+    <div class="lp-features">
+      <div class="lp-feat">
+        <div class="lp-feat-icon">🔍</div>
+        <span class="lp-feat-text">OCR extraction from PDF or image reports</span>
+      </div>
+      <div class="lp-feat">
+        <div class="lp-feat-icon">🧪</div>
+        <span class="lp-feat-text">Automated lab value classification</span>
+      </div>
+      <div class="lp-feat">
+        <div class="lp-feat-icon">🤖</div>
+        <span class="lp-feat-text">AI-generated patient-friendly explanations</span>
+      </div>
+      <div class="lp-feat">
+        <div class="lp-feat-icon">📄</div>
+        <span class="lp-feat-text">Professional PDF export & secure sharing</span>
+      </div>
+      <div class="lp-feat">
+        <div class="lp-feat-icon">🔒</div>
+        <span class="lp-feat-text">Privacy-first: files deleted after processing</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lp-bottom">For educational and informational purposes only. Not a substitute for professional medical advice.</div>
+</div>
+
+<div class="right-panel">
+  <div class="login-card">
+    <h1 class="lc-title">Welcome back</h1>
+    <p class="lc-sub">New to MediScan AI? <a href="#">Create a free account</a></p>
+
+    <div class="form-group">
+      <label class="form-label">Email address</label>
+      <div class="form-input-wrap">
+        <span class="input-icon">✉️</span>
+        <input class="form-input" type="email" placeholder="you@example.com" value="ahmed.ali@email.com"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <div class="form-input-wrap">
+        <span class="input-icon">🔑</span>
+        <input class="form-input" type="password" placeholder="Enter your password" value="••••••••••"/>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label class="remember">
+        <input type="checkbox" checked/>
+        Remember me for 30 days
+      </label>
+      <a href="#" class="forgot">Forgot password?</a>
+    </div>
+
+    <button class="btn-login">Sign In to MediScan AI</button>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">or</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <button class="btn-demo">Continue with Demo Account</button>
+
+    <div class="register-link">
+      Don't have an account? <a href="#">Sign up for free</a>
+    </div>
+
+    <div class="disclaimer-note">
+      <span class="dn-icon">⚠️</span>
+      <p class="dn-text">MediScan AI is for educational purposes only. Results are not a substitute for professional medical advice.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

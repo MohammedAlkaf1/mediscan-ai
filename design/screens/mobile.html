@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=390"/>
+<title>MediScan AI – Mobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;width:390px}
+
+/* STATUS BAR */
+.status-bar{height:44px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:12px;font-weight:600;color:#0f172a}
+.sb-time{font-weight:700}
+.sb-icons{display:flex;gap:4px;align-items:center}
+
+/* MOBILE NAV */
+.mob-nav{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.mob-logo{display:flex;align-items:center;gap:8px}
+.mob-logo-icon{width:28px;height:28px;background:#0f766e;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.mob-logo-text{font-size:15px;font-weight:700;color:#0f172a}
+.mob-logo-text span{color:#0f766e}
+.mob-menu{width:32px;height:32px;background:#f8fafc;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid #e2e8f0}
+
+/* CONTENT */
+.mob-content{padding:16px}
+
+/* GREETING */
+.greeting{margin-bottom:16px}
+.greet-label{font-size:12px;color:#94a3b8;font-weight:500}
+.greet-name{font-size:20px;font-weight:800;color:#0f172a;letter-spacing:-0.3px}
+
+/* QUICK UPLOAD */
+.upload-card{background:linear-gradient(135deg,#0f766e,#0891b2);border-radius:14px;padding:18px;margin-bottom:16px}
+.uc-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+.uc-sub{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:14px}
+.uc-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:#fff;color:#0f766e;border-radius:8px;font-size:13px;font-weight:700;border:none;cursor:pointer}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat-mob{background:#fff;border-radius:12px;padding:14px;border:1px solid #e2e8f0}
+.sm-label{font-size:11px;color:#64748b;font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.3px}
+.sm-val{font-size:24px;font-weight:800;color:#0f172a}
+.sm-change{font-size:11px;color:#16a34a;margin-top:3px}
+.sm-sub{font-size:11px;color:#94a3b8;margin-top:3px}
+
+/* RECENT REPORTS */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-title{font-size:14px;font-weight:700;color:#0f172a}
+.sec-link{font-size:12px;font-weight:600;color:#0f766e}
+.report-card{background:#fff;border-radius:12px;padding:14px;border:1px solid #e2e8f0;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.rc-av{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.av-blue{background:#dbeafe;color:#1d4ed8}
+.av-teal{background:#ccfbf1;color:#0f766e}
+.av-rose{background:#fce7f3;color:#9d174d}
+.rc-info{flex:1}
+.rc-name{font-size:13px;font-weight:600;color:#0f172a;margin-bottom:2px}
+.rc-meta{font-size:11px;color:#94a3b8}
+.rc-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px}
+.b-done{background:#dcfce7;color:#15803d}
+.b-proc{background:#fef3c7;color:#b45309}
+.rc-date{font-size:10px;color:#94a3b8}
+
+/* DISCLAIMER */
+.disclaimer-mob{padding:12px 14px;background:#fffbeb;border-radius:10px;border:1px solid #fde68a;display:flex;gap:8px;margin-top:4px;margin-bottom:16px}
+.dm-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.dm-text{font-size:11px;color:#78350f;line-height:1.55}
+
+/* BOTTOM NAV */
+.bottom-nav{position:sticky;bottom:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;height:64px}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer}
+.bn-icon{font-size:20px}
+.bn-label{font-size:10px;font-weight:600;color:#94a3b8}
+.bn-item.active .bn-label{color:#0f766e}
+.bn-item.active .bn-icon{filter:sepia(1) saturate(3) hue-rotate(115deg)}
+.bn-upload{background:#0f766e;border-radius:14px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-top:-20px;box-shadow:0 4px 12px rgba(15,118,110,.35)}
+
+/* REPORT DETAIL MOBILE PREVIEW (second screen) */
+.divider-label{text-align:center;font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;padding:20px 0 12px;border-top:2px dashed #e2e8f0;margin-top:8px}
+
+.rd-card{background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e8f0;margin-bottom:10px}
+.rd-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:2px}
+.rd-meta{font-size:11px;color:#94a3b8;margin-bottom:12px}
+.rd-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.rd-stat{text-align:center;padding:8px;background:#f8fafc;border-radius:8px}
+.rds-val{font-size:18px;font-weight:800}
+.rds-label{font-size:10px;color:#64748b;margin-top:2px}
+.rds-total{color:#0f172a}.rds-normal{color:#16a34a}.rds-high{color:#dc2626}.rds-low{color:#2563eb}
+
+.mob-result-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:9px;margin-bottom:6px}
+.mrr-normal{background:#f0fdf4}
+.mrr-high{background:#fef2f2}
+.mrr-low{background:#eff6ff}
+.mrr-test{font-size:12px;font-weight:600;color:#0f172a}
+.mrr-val{font-size:12px;font-weight:700;color:#0f172a;margin:0 8px}
+.mrr-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px}
+.mrb-normal{background:#dcfce7;color:#15803d}
+.mrb-high{background:#fee2e2;color:#dc2626}
+.mrb-low{background:#dbeafe;color:#1d4ed8}
+
+.mob-actions{display:flex;gap:8px;margin-top:12px}
+.mob-act-btn{flex:1;padding:10px;border-radius:9px;font-size:12px;font-weight:700;border:none;cursor:pointer;text-align:center}
+.mab-primary{background:#0f766e;color:#fff}
+.mab-secondary{background:#0f172a;color:#fff}
+.mab-ghost{background:#f8fafc;color:#475569;border:1px solid #e2e8f0}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <span class="sb-time">9:41</span>
+  <div class="sb-icons">📶 🔋</div>
+</div>
+
+<!-- NAV -->
+<div class="mob-nav">
+  <div class="mob-logo">
+    <div class="mob-logo-icon">🔬</div>
+    <span class="mob-logo-text">Medi<span>Scan</span></span>
+  </div>
+  <div class="mob-menu">☰</div>
+</div>
+
+<!-- CONTENT -->
+<div class="mob-content">
+
+  <!-- GREETING -->
+  <div class="greeting">
+    <div class="greet-label">Good morning</div>
+    <div class="greet-name">Ahmed Ali 👋</div>
+  </div>
+
+  <!-- QUICK UPLOAD -->
+  <div class="upload-card">
+    <div class="uc-title">Upload a Lab Report</div>
+    <p class="uc-sub">PDF, PNG, or JPG · Get results in seconds</p>
+    <button class="uc-btn">📤 Choose File</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-mob">
+      <div class="sm-label">Total Reports</div>
+      <div class="sm-val">14</div>
+      <div class="sm-change">↑ 3 this month</div>
+    </div>
+    <div class="stat-mob">
+      <div class="sm-label">Abnormal</div>
+      <div class="sm-val" style="color:#dc2626">3</div>
+      <div class="sm-sub">values flagged</div>
+    </div>
+    <div class="stat-mob">
+      <div class="sm-label">Normal Rate</div>
+      <div class="sm-val" style="color:#16a34a">78%</div>
+      <div class="sm-sub">of all values</div>
+    </div>
+    <div class="stat-mob">
+      <div class="sm-label">Last Report</div>
+      <div class="sm-val" style="font-size:16px">May 24</div>
+      <div class="sm-sub">2025</div>
+    </div>
+  </div>
+
+  <!-- RECENT REPORTS -->
+  <div class="section-header">
+    <span class="sec-title">Recent Reports</span>
+    <a href="#" class="sec-link">See all →</a>
+  </div>
+
+  <div class="report-card">
+    <div class="rc-av av-blue">AA</div>
+    <div class="rc-info">
+      <div class="rc-name">CBC Report</div>
+      <div class="rc-meta">3 abnormal values</div>
+    </div>
+    <div class="rc-right">
+      <span class="badge b-done">Done</span>
+      <span class="rc-date">May 24</span>
+    </div>
+  </div>
+
+  <div class="report-card">
+    <div class="rc-av av-teal">SK</div>
+    <div class="rc-info">
+      <div class="rc-name">Lipid Panel</div>
+      <div class="rc-meta">1 abnormal value</div>
+    </div>
+    <div class="rc-right">
+      <span class="badge b-done">Done</span>
+      <span class="rc-date">May 21</span>
+    </div>
+  </div>
+
+  <div class="report-card">
+    <div class="rc-av av-rose">MR</div>
+    <div class="rc-info">
+      <div class="rc-name">Thyroid Panel</div>
+      <div class="rc-meta">Extracting text…</div>
+    </div>
+    <div class="rc-right">
+      <span class="badge b-proc">Processing</span>
+      <span class="rc-date">May 26</span>
+    </div>
+  </div>
+
+  <div class="disclaimer-mob">
+    <span class="dm-icon">⚠️</span>
+    <p class="dm-text">For educational purposes only. Not a substitute for professional medical advice.</p>
+  </div>
+
+  <!-- DIVIDER: SECOND SCREEN PREVIEW -->
+  <div class="divider-label">Report Detail — Mobile View</div>
+
+  <div class="rd-card">
+    <div class="rd-title">CBC Report — Ahmed Ali</div>
+    <div class="rd-meta">May 24, 2025 · Complete Blood Count · Done</div>
+    <div class="rd-stats">
+      <div class="rd-stat"><div class="rds-val rds-total">8</div><div class="rds-label">Total</div></div>
+      <div class="rd-stat"><div class="rds-val rds-normal">5</div><div class="rds-label">Normal</div></div>
+      <div class="rd-stat"><div class="rds-val rds-high">2</div><div class="rds-label">High</div></div>
+      <div class="rd-stat"><div class="rds-val rds-low">1</div><div class="rds-label">Low</div></div>
+    </div>
+    <div class="mob-result-row mrr-normal"><span class="mrr-test">Hemoglobin</span><span class="mrr-val">13.5</span><span class="mrr-badge mrb-normal">Normal</span></div>
+    <div class="mob-result-row mrr-high"><span class="mrr-test">WBC</span><span class="mrr-val">12.1</span><span class="mrr-badge mrb-high">High</span></div>
+    <div class="mob-result-row mrr-normal"><span class="mrr-test">Platelets</span><span class="mrr-val">180</span><span class="mrr-badge mrb-normal">Normal</span></div>
+    <div class="mob-result-row mrr-high"><span class="mrr-test">Neutrophils</span><span class="mrr-val">78.4%</span><span class="mrr-badge mrb-high">High</span></div>
+    <div class="mob-result-row mrr-low"><span class="mrr-test">Folic Acid</span><span class="mrr-val">3.2</span><span class="mrr-badge mrb-low">Low</span></div>
+    <div class="mob-actions">
+      <button class="mob-act-btn mab-secondary">📄 PDF</button>
+      <button class="mob-act-btn mab-primary">🔗 Share</button>
+      <button class="mob-act-btn mab-ghost">✏️ Edit</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="bn-item active">
+    <span class="bn-icon">🏠</span>
+    <span class="bn-label" style="color:#0f766e">Home</span>
+  </div>
+  <div class="bn-item">
+    <span class="bn-icon">📋</span>
+    <span class="bn-label">Reports</span>
+  </div>
+  <div class="bn-item">
+    <div class="bn-upload">📤</div>
+  </div>
+  <div class="bn-item">
+    <span class="bn-icon">📈</span>
+    <span class="bn-label">Trends</span>
+  </div>
+  <div class="bn-item">
+    <span class="bn-icon">👤</span>
+    <span class="bn-label">Profile</span>
+  </div>
+</div>
+
+</body>
+</html>

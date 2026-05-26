@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1440"/>
+<title>MediScan AI – Landing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;width:1440px}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 80px;height:72px;background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:36px;height:36px;background:#0f766e;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:20px;height:20px;stroke:#fff;fill:none}
+.logo-text{font-size:18px;font-weight:700;color:#0f172a;letter-spacing:-0.3px}
+.logo-text span{color:#0f766e}
+nav ul{display:flex;gap:32px;list-style:none}
+nav ul a{text-decoration:none;font-size:14px;font-weight:500;color:#475569;transition:color .2s}
+nav ul a:hover{color:#0f766e}
+.nav-cta{display:flex;gap:12px;align-items:center}
+.btn-ghost{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:500;color:#475569;cursor:pointer;border:1px solid #e2e8f0;background:transparent;text-decoration:none}
+.btn-primary{padding:9px 20px;border-radius:8px;font-size:14px;font-weight:600;color:#fff;background:#0f766e;border:none;cursor:pointer;text-decoration:none}
+
+/* HERO */
+.hero{padding:96px 80px 80px;display:flex;align-items:center;gap:80px;background:#fff}
+.hero-left{flex:1;max-width:580px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;font-size:12px;font-weight:600;padding:5px 12px;border-radius:100px;margin-bottom:24px;letter-spacing:0.2px}
+.badge-dot{width:6px;height:6px;background:#22c55e;border-radius:50%}
+h1{font-size:52px;font-weight:800;line-height:1.15;color:#0f172a;letter-spacing:-1.5px;margin-bottom:20px}
+h1 span{color:#0f766e}
+.hero-sub{font-size:18px;color:#64748b;line-height:1.65;margin-bottom:36px;font-weight:400}
+.hero-actions{display:flex;gap:14px;align-items:center;margin-bottom:48px}
+.btn-hero{padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn-hero-primary{background:#0f766e;color:#fff;border:none;box-shadow:0 4px 14px rgba(15,118,110,.25)}
+.btn-hero-secondary{background:#fff;color:#0f172a;border:1.5px solid #e2e8f0}
+.hero-social-proof{display:flex;align-items:center;gap:12px}
+.avatars{display:flex}
+.avatar{width:32px;height:32px;border-radius:50%;border:2px solid #fff;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#475569;margin-left:-8px}
+.avatar:first-child{margin-left:0}
+.avatar.av1{background:#bfdbfe;color:#1d4ed8}
+.avatar.av2{background:#d1fae5;color:#065f46}
+.avatar.av3{background:#fce7f3;color:#9d174d}
+.avatar.av4{background:#fef3c7;color:#92400e}
+.proof-text{font-size:13px;color:#64748b}
+.proof-text strong{color:#0f172a;font-weight:600}
+
+.hero-right{flex:1;position:relative;display:flex;justify-content:center}
+.mock-card{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(15,23,42,.1),0 4px 12px rgba(15,23,42,.06);padding:24px;width:440px;border:1px solid #f1f5f9}
+.mock-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.mock-title{font-size:14px;font-weight:600;color:#0f172a}
+.mock-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:#dcfce7;color:#16a34a}
+.mock-patient{display:flex;align-items:center;gap:10px;padding:12px;background:#f8fafc;border-radius:10px;margin-bottom:16px}
+.mock-avatar{width:36px;height:36px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#1d4ed8}
+.mock-name{font-size:13px;font-weight:600;color:#0f172a}
+.mock-meta{font-size:11px;color:#94a3b8;margin-top:1px}
+.mock-results{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.mock-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px}
+.mock-row.normal{background:#f0fdf4}
+.mock-row.high{background:#fef2f2}
+.mock-row.low{background:#eff6ff}
+.mock-test{font-size:12px;font-weight:500;color:#374151}
+.mock-val{font-size:12px;font-weight:700;color:#0f172a}
+.mock-st{font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px}
+.st-normal{background:#dcfce7;color:#15803d}
+.st-high{background:#fee2e2;color:#dc2626}
+.st-low{background:#dbeafe;color:#1d4ed8}
+.mock-explain{background:#fafafa;border-radius:10px;padding:12px;border-left:3px solid #0f766e}
+.mock-explain-label{font-size:10px;font-weight:600;color:#0f766e;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px}
+.mock-explain-text{font-size:12px;color:#475569;line-height:1.55}
+.float-badge{position:absolute;background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:10px 14px;border:1px solid #f1f5f9}
+.float-badge-1{top:-16px;right:-20px}
+.float-badge-2{bottom:40px;left:-30px}
+.float-label{font-size:11px;font-weight:600;color:#374151;margin-bottom:2px}
+.float-val{font-size:18px;font-weight:800;color:#0f766e}
+.float-sub{font-size:10px;color:#94a3b8}
+
+/* HOW IT WORKS */
+.section{padding:80px 80px}
+.section-label{font-size:12px;font-weight:700;color:#0f766e;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.section-title{font-size:36px;font-weight:800;color:#0f172a;letter-spacing:-0.8px;margin-bottom:12px}
+.section-sub{font-size:16px;color:#64748b;max-width:480px;line-height:1.6}
+.steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:52px;position:relative}
+.steps-grid::before{content:'';position:absolute;top:28px;left:10%;width:80%;height:2px;background:linear-gradient(90deg,#0f766e,#0891b2);opacity:.2}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 16px}
+.step-num{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-bottom:16px;position:relative;z-index:1}
+.step-num.s1{background:#e0f2fe;color:#0369a1;border:2px solid #bae6fd}
+.step-num.s2{background:#f0fdf4;color:#15803d;border:2px solid #bbf7d0}
+.step-num.s3{background:#fef3c7;color:#b45309;border:2px solid #fde68a}
+.step-num.s4{background:#fce7f3;color:#9d174d;border:2px solid #fbcfe8}
+.step-num.s5{background:#f3e8ff;color:#7e22ce;border:2px solid #e9d5ff}
+.step-icon{font-size:20px}
+.step-title{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:6px}
+.step-desc{font-size:12px;color:#64748b;line-height:1.55}
+
+/* FEATURES */
+.features-section{background:#f8fafc;padding:80px}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
+.feature-card{background:#fff;border-radius:16px;padding:28px;border:1px solid #e2e8f0}
+.feature-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+.fi-blue{background:#eff6ff}
+.fi-teal{background:#f0fdfa}
+.fi-green{background:#f0fdf4}
+.fi-orange{background:#fff7ed}
+.fi-purple{background:#faf5ff}
+.fi-rose{background:#fff1f2}
+.feature-title{font-size:15px;font-weight:700;color:#0f172a;margin-bottom:8px}
+.feature-desc{font-size:13px;color:#64748b;line-height:1.6}
+
+/* DISCLAIMER */
+.disclaimer{margin:0 80px 80px;padding:20px 24px;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;display:flex;gap:12px;align-items:flex-start}
+.disc-icon{font-size:18px;margin-top:1px}
+.disc-text{font-size:13px;color:#78350f;line-height:1.55}
+.disc-text strong{font-weight:600}
+
+/* CTA SECTION */
+.cta-section{padding:80px;background:linear-gradient(135deg,#0f766e 0%,#0891b2 100%);text-align:center}
+.cta-title{font-size:40px;font-weight:800;color:#fff;letter-spacing:-0.8px;margin-bottom:16px}
+.cta-sub{font-size:16px;color:rgba(255,255,255,.75);margin-bottom:36px}
+.btn-cta{padding:14px 32px;background:#fff;color:#0f766e;border-radius:10px;font-size:15px;font-weight:700;border:none;cursor:pointer;text-decoration:none;display:inline-block}
+
+/* FOOTER */
+footer{padding:40px 80px;background:#0f172a;display:flex;align-items:center;justify-content:space-between}
+.footer-logo{font-size:16px;font-weight:700;color:#fff}
+.footer-logo span{color:#2dd4bf}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-size:13px;color:#94a3b8;text-decoration:none}
+.footer-copy{font-size:12px;color:#64748b}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M4.5 12a7.5 7.5 0 1115 0 7.5 7.5 0 01-15 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 3.75a9 9 0 015.25 8.25"/></svg>
+    </div>
+    <span class="logo-text">Medi<span>Scan</span> AI</span>
+  </div>
+  <ul>
+    <li><a href="#">Features</a></li>
+    <li><a href="#">How it Works</a></li>
+    <li><a href="#">Security</a></li>
+    <li><a href="#">FAQ</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#" class="btn-ghost">Sign In</a>
+    <a href="#" class="btn-primary">Get Started Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="badge"><span class="badge-dot"></span> AI-Powered Lab Report Analysis</div>
+    <h1>Understand your<br/><span>lab reports</span><br/>with clarity</h1>
+    <p class="hero-sub">Upload your medical lab report and get instant, plain-language explanations of every result — powered by AI, designed for patients.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-hero btn-hero-primary">Analyze My Report</a>
+      <a href="#" class="btn-hero btn-hero-secondary">See a Demo</a>
+    </div>
+    <div class="hero-social-proof">
+      <div class="avatars">
+        <div class="avatar av1">AK</div>
+        <div class="avatar av2">SH</div>
+        <div class="avatar av3">OA</div>
+        <div class="avatar av4">MR</div>
+      </div>
+      <p class="proof-text"><strong>2,400+</strong> reports analyzed this month</p>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="float-badge float-badge-1">
+      <div class="float-label">Reports Analyzed</div>
+      <div class="float-val">2,431</div>
+      <div class="float-sub">↑ 18% this week</div>
+    </div>
+    <div class="mock-card">
+      <div class="mock-header">
+        <span class="mock-title">CBC Report — Ahmed Ali</span>
+        <span class="mock-badge">Done</span>
+      </div>
+      <div class="mock-patient">
+        <div class="mock-avatar">AA</div>
+        <div>
+          <div class="mock-name">Ahmed Ali</div>
+          <div class="mock-meta">May 24, 2025 · Complete Blood Count</div>
+        </div>
+      </div>
+      <div class="mock-results">
+        <div class="mock-row normal">
+          <span class="mock-test">Hemoglobin</span>
+          <span class="mock-val">13.5 g/dL</span>
+          <span class="mock-st st-normal">Normal</span>
+        </div>
+        <div class="mock-row high">
+          <span class="mock-test">WBC</span>
+          <span class="mock-val">12.1 ×10⁹/L</span>
+          <span class="mock-st st-high">High</span>
+        </div>
+        <div class="mock-row normal">
+          <span class="mock-test">Platelets</span>
+          <span class="mock-val">180 ×10⁹/L</span>
+          <span class="mock-st st-normal">Normal</span>
+        </div>
+        <div class="mock-row low">
+          <span class="mock-test">Folic Acid</span>
+          <span class="mock-val">3.2 ng/mL</span>
+          <span class="mock-st st-low">Low</span>
+        </div>
+      </div>
+      <div class="mock-explain">
+        <div class="mock-explain-label">AI Explanation</div>
+        <div class="mock-explain-text">Your white blood cell count is slightly elevated, which may indicate the body is responding to an infection or inflammation. Other values are within normal range.</div>
+      </div>
+    </div>
+    <div class="float-badge float-badge-2">
+      <div class="float-label">AI Accuracy</div>
+      <div class="float-val">98.4%</div>
+      <div class="float-sub">Classification rate</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:#fff">
+  <div class="section-label">Simple Process</div>
+  <div class="section-title">From upload to understanding<br/>in under 60 seconds</div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num s1"><div class="step-icon">📤</div></div>
+      <div class="step-title">Upload Report</div>
+      <div class="step-desc">Drag and drop your PDF or image lab report securely</div>
+    </div>
+    <div class="step">
+      <div class="step-num s2"><div class="step-icon">🔍</div></div>
+      <div class="step-title">OCR Extraction</div>
+      <div class="step-desc">Our engine reads and extracts all text from any format</div>
+    </div>
+    <div class="step">
+      <div class="step-num s3"><div class="step-icon">🧪</div></div>
+      <div class="step-title">Parse Results</div>
+      <div class="step-desc">Lab values, units and reference ranges are identified</div>
+    </div>
+    <div class="step">
+      <div class="step-num s4"><div class="step-icon">🤖</div></div>
+      <div class="step-title">AI Explains</div>
+      <div class="step-desc">Gemini AI generates a plain-language summary for you</div>
+    </div>
+    <div class="step">
+      <div class="step-num s5"><div class="step-icon">📄</div></div>
+      <div class="step-title">Download & Share</div>
+      <div class="step-desc">Export a professional PDF or share with your doctor</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="section-label">What's Included</div>
+  <div class="section-title">Everything you need to understand<br/>your health results</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon fi-blue">📊</div>
+      <div class="feature-title">Color-Coded Results</div>
+      <div class="feature-desc">Green, red, blue and gray status badges clearly highlight every abnormal value at a glance.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-teal">🤖</div>
+      <div class="feature-title">AI Explanations</div>
+      <div class="feature-desc">Google Gemini generates simple, patient-friendly explanations — no medical jargon.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-green">📈</div>
+      <div class="feature-title">Health Trend Tracking</div>
+      <div class="feature-desc">Compare values across multiple reports to monitor your health journey over time.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-orange">🔗</div>
+      <div class="feature-title">Secure Sharing</div>
+      <div class="feature-desc">Generate expiring, password-protected links to share reports with family or providers.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">📄</div>
+      <div class="feature-title">PDF Export</div>
+      <div class="feature-desc">Download a clean, professional PDF report including the AI explanation and disclaimer.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-rose">🔒</div>
+      <div class="feature-title">Privacy First</div>
+      <div class="feature-desc">Files deleted after processing. JWT auth, bcrypt passwords, zero medical data logging.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <span class="disc-icon">⚠️</span>
+  <p class="disc-text"><strong>Medical Disclaimer:</strong> MediScan AI is for educational and informational purposes only. It does not provide medical diagnosis, treatment, or professional medical advice. Always consult a licensed healthcare professional before making any health-related decisions.</p>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-title">Ready to understand your lab report?</div>
+  <p class="cta-sub">Join thousands of patients who use MediScan AI to take control of their health data.</p>
+  <a href="#" class="btn-cta">Start for Free — No Account Needed</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Medi<span>Scan</span> AI</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Medical Disclaimer</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 MediScan AI. For informational purposes only.</div>
+</footer>
+
+</body>
+</html>

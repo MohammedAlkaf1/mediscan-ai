@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1440"/>
+<title>MediScan AI – Report Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:#1e293b;width:1440px;display:flex;min-height:1100px}
+
+.sidebar{width:240px;background:#fff;border-right:1px solid #e2e8f0;min-height:1100px;display:flex;flex-direction:column}
+.sb-logo{padding:20px;display:flex;align-items:center;gap:9px;height:64px}
+.sb-logo-icon{width:32px;height:32px;background:#0f766e;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.sb-logo-icon svg{width:18px;height:18px;stroke:#fff;fill:none}
+.sb-logo-text{font-size:16px;font-weight:700;color:#0f172a}
+.sb-logo-text span{color:#0f766e}
+.sb-nav{padding:20px 12px;flex:1;display:flex;flex-direction:column;gap:2px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13.5px;font-weight:500;color:#475569;text-decoration:none}
+.sb-item.active{background:#f0fdfa;color:#0f766e;font-weight:600}
+.sb-icon{font-size:16px}
+.sb-section{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.8px;padding:16px 12px 6px}
+.sb-user{padding:16px;border-top:1px solid #f1f5f9;display:flex;align-items:center;gap:10px}
+.sb-user-av{width:34px;height:34px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#1d4ed8}
+.sb-user-name{font-size:13px;font-weight:600;color:#0f172a}
+.sb-user-role{font-size:11px;color:#94a3b8}
+
+.main{flex:1;display:flex;flex-direction:column}
+.topbar{height:64px;background:#fff;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.topbar-left{display:flex;flex-direction:column}
+.topbar-title{font-size:16px;font-weight:700;color:#0f172a}
+.breadcrumb{font-size:12px;color:#94a3b8;display:flex;align-items:center;gap:4px;margin-top:2px}
+.breadcrumb span{color:#0f172a}
+.topbar-right{display:flex;gap:10px}
+.btn-action{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;border:none}
+.btn-pdf{background:#0f172a;color:#fff}
+.btn-share{background:#0f766e;color:#fff}
+.btn-edit{background:#fff;color:#475569;border:1.5px solid #e2e8f0!important}
+.btn-delete{background:#fff;color:#dc2626;border:1.5px solid #fecaca!important}
+
+.content{padding:28px 32px;flex:1}
+
+/* REPORT META */
+.meta-card{background:#fff;border-radius:14px;padding:24px;border:1px solid #e2e8f0;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.meta-left{display:flex;align-items:center;gap:16px}
+.meta-av{width:52px;height:52px;border-radius:12px;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#1d4ed8}
+.meta-name{font-size:18px;font-weight:800;color:#0f172a;margin-bottom:4px}
+.meta-sub{font-size:13px;color:#64748b;display:flex;align-items:center;gap:12px}
+.meta-sub span{display:flex;align-items:center;gap:4px}
+.status-chip{padding:5px 14px;border-radius:100px;font-size:12px;font-weight:700}
+.sc-done{background:#dcfce7;color:#15803d}
+.sc-type{font-size:12px;background:#f0fdf4;color:#15803d;padding:4px 12px;border-radius:100px;font-weight:600}
+
+/* SUMMARY CARDS */
+.summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.sum-card{background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e8f0;text-align:center}
+.sum-num{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
+.sum-label{font-size:12px;color:#64748b;font-weight:500}
+.sn-total{color:#0f172a}
+.sn-normal{color:#16a34a}
+.sn-high{color:#dc2626}
+.sn-low{color:#2563eb}
+
+/* GRID */
+.detail-grid{display:grid;grid-template-columns:1fr 340px;gap:20px}
+
+/* RESULTS TABLE */
+.table-card{background:#fff;border-radius:14px;border:1px solid #e2e8f0;overflow:hidden;margin-bottom:20px}
+.card-header{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:14px;font-weight:700;color:#0f172a}
+table{width:100%;border-collapse:collapse}
+thead{background:#f8fafc}
+th{padding:11px 16px;text-align:left;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #f1f5f9}
+td{padding:12px 16px;font-size:13px;border-bottom:1px solid #f8fafc}
+tr:last-child td{border-bottom:none}
+tr.row-normal{background:#fff}
+tr.row-normal:hover{background:#f0fdf4}
+tr.row-high{background:#fef8f8}
+tr.row-high:hover{background:#fef2f2}
+tr.row-low{background:#f7f9ff}
+tr.row-low:hover{background:#eff6ff}
+.test-name{font-weight:600;color:#0f172a}
+.test-alias{font-size:11px;color:#94a3b8;margin-top:2px}
+.val-num{font-weight:700;color:#0f172a}
+.ref-range{color:#64748b}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px}
+.b-normal{background:#dcfce7;color:#15803d}
+.b-high{background:#fee2e2;color:#dc2626}
+.b-low{background:#dbeafe;color:#1d4ed8}
+.b-unknown{background:#f1f5f9;color:#64748b}
+
+/* EXPLANATION */
+.explain-card{background:#fff;border-radius:14px;border:1px solid #e2e8f0;padding:24px;margin-bottom:20px}
+.explain-title{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.explain-ai-badge{font-size:10px;font-weight:600;background:#f0fdf4;color:#15803d;padding:2px 8px;border-radius:100px}
+.explain-sub{font-size:12px;color:#94a3b8;margin-bottom:16px}
+.explain-section{margin-bottom:16px;padding-left:12px;border-left:3px solid #e2e8f0}
+.explain-section.highlight{border-left-color:#f59e0b}
+.explain-section.tips{border-left-color:#0f766e}
+.es-label{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+.es-text{font-size:13px;color:#374151;line-height:1.7}
+.es-list{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.es-item{display:flex;align-items:flex-start;gap:7px;font-size:13px;color:#374151}
+.es-dot{color:#0f766e;font-weight:700;margin-top:1px}
+
+/* DISCLAIMER */
+.disclaimer-card{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:16px 20px;display:flex;gap:10px}
+.disc-icon{font-size:18px;margin-top:1px;flex-shrink:0}
+.disc-body{}
+.disc-title{font-size:12px;font-weight:700;color:#92400e;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.3px}
+.disc-text{font-size:12px;color:#78350f;line-height:1.6}
+
+/* SIDE CARDS */
+.side-card{background:#fff;border-radius:14px;padding:20px;border:1px solid #e2e8f0;margin-bottom:16px}
+.sc-title{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:14px}
+.info-row{display:flex;justify-content:space-between;margin-bottom:8px;align-items:center}
+.info-label{font-size:12px;color:#64748b;font-weight:500}
+.info-val{font-size:12px;font-weight:600;color:#0f172a}
+.share-btn{width:100%;padding:9px;background:#0f766e;color:#fff;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;margin-top:8px}
+.pdf-btn{width:100%;padding:9px;background:#0f172a;color:#fff;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;margin-top:8px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M4.5 12a7.5 7.5 0 1115 0 7.5 7.5 0 01-15 0z"/></svg>
+    </div>
+    <span class="sb-logo-text">Medi<span>Scan</span></span>
+  </div>
+  <nav class="sb-nav">
+    <span class="sb-section">Main</span>
+    <a class="sb-item" href="#"><span class="sb-icon">🏠</span> Dashboard</a>
+    <a class="sb-item" href="#"><span class="sb-icon">📤</span> Upload Report</a>
+    <a class="sb-item active" href="#"><span class="sb-icon">📋</span> My Reports</a>
+    <span class="sb-section">Analytics</span>
+    <a class="sb-item" href="#"><span class="sb-icon">📈</span> Health Trends</a>
+    <a class="sb-item" href="#"><span class="sb-icon">📊</span> Analytics</a>
+    <span class="sb-section">Account</span>
+    <a class="sb-item" href="#"><span class="sb-icon">⚙️</span> Settings</a>
+    <a class="sb-item" href="#"><span class="sb-icon">❓</span> Help & FAQ</a>
+  </nav>
+  <div class="sb-user">
+    <div class="sb-user-av">AK</div>
+    <div>
+      <div class="sb-user-name">Ahmed Ali</div>
+      <div class="sb-user-role">Patient Account</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title">Report Detail</div>
+      <div class="breadcrumb">My Reports / <span>CBC Report — Ahmed Ali</span></div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-action btn-pdf">📄 Download PDF</button>
+      <button class="btn-action btn-share">🔗 Share</button>
+      <button class="btn-action btn-edit" style="border:1.5px solid #e2e8f0">✏️ Edit</button>
+      <button class="btn-action btn-delete" style="border:1.5px solid #fecaca">🗑 Delete</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- META -->
+    <div class="meta-card">
+      <div class="meta-left">
+        <div class="meta-av">AA</div>
+        <div>
+          <div class="meta-name">CBC Report — Ahmed Ali</div>
+          <div class="meta-sub">
+            <span>📅 May 24, 2025</span>
+            <span>🧪 Complete Blood Count</span>
+            <span>📁 CBC_Report_Ahmed.pdf</span>
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:#64748b;font-style:italic">"Fasting blood draw — morning sample"</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+        <span class="status-chip sc-done">✓ Done</span>
+        <span class="sc-type">Complete Blood Count</span>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary-row">
+      <div class="sum-card"><div class="sum-num sn-total">8</div><div class="sum-label">Total Tests</div></div>
+      <div class="sum-card"><div class="sum-num sn-normal">5</div><div class="sum-label">Normal</div></div>
+      <div class="sum-card"><div class="sum-num sn-high">2</div><div class="sum-label">High</div></div>
+      <div class="sum-card"><div class="sum-num sn-low">1</div><div class="sum-label">Low</div></div>
+    </div>
+
+    <div class="detail-grid">
+      <!-- LEFT -->
+      <div>
+        <!-- RESULTS TABLE -->
+        <div class="table-card">
+          <div class="card-header">
+            <span class="card-title">Lab Results</span>
+            <span style="font-size:12px;color:#94a3b8">8 tests extracted</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Test Name</th><th>Value</th><th>Unit</th><th>Reference Range</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-normal">
+                <td><div class="test-name">Hemoglobin</div><div class="test-alias">HGB</div></td>
+                <td><span class="val-num">13.5</span></td>
+                <td style="color:#64748b">g/dL</td>
+                <td class="ref-range">13.0 – 17.0</td>
+                <td><span class="badge b-normal">Normal</span></td>
+              </tr>
+              <tr class="row-high">
+                <td><div class="test-name">White Blood Cells</div><div class="test-alias">WBC</div></td>
+                <td><span class="val-num">12.1</span></td>
+                <td style="color:#64748b">×10⁹/L</td>
+                <td class="ref-range">4.5 – 11.0</td>
+                <td><span class="badge b-high">High</span></td>
+              </tr>
+              <tr class="row-normal">
+                <td><div class="test-name">Platelets</div><div class="test-alias">PLT</div></td>
+                <td><span class="val-num">180</span></td>
+                <td style="color:#64748b">×10⁹/L</td>
+                <td class="ref-range">150 – 400</td>
+                <td><span class="badge b-normal">Normal</span></td>
+              </tr>
+              <tr class="row-normal">
+                <td><div class="test-name">Red Blood Cells</div><div class="test-alias">RBC</div></td>
+                <td><span class="val-num">4.8</span></td>
+                <td style="color:#64748b">×10¹²/L</td>
+                <td class="ref-range">4.2 – 5.8</td>
+                <td><span class="badge b-normal">Normal</span></td>
+              </tr>
+              <tr class="row-high">
+                <td><div class="test-name">Neutrophils</div><div class="test-alias">NEUT</div></td>
+                <td><span class="val-num">78.4</span></td>
+                <td style="color:#64748b">%</td>
+                <td class="ref-range">40 – 75</td>
+                <td><span class="badge b-high">High</span></td>
+              </tr>
+              <tr class="row-normal">
+                <td><div class="test-name">Lymphocytes</div><div class="test-alias">LYMPH</div></td>
+                <td><span class="val-num">18.2</span></td>
+                <td style="color:#64748b">%</td>
+                <td class="ref-range">20 – 40</td>
+                <td><span class="badge b-normal">Normal</span></td>
+              </tr>
+              <tr class="row-low">
+                <td><div class="test-name">Folic Acid</div><div class="test-alias">FOLATE</div></td>
+                <td><span class="val-num">3.2</span></td>
+                <td style="color:#64748b">ng/mL</td>
+                <td class="ref-range">4.0 – 20.0</td>
+                <td><span class="badge b-low">Low</span></td>
+              </tr>
+              <tr class="row-normal">
+                <td><div class="test-name">Hematocrit</div><div class="test-alias">HCT</div></td>
+                <td><span class="val-num">42.5</span></td>
+                <td style="color:#64748b">%</td>
+                <td class="ref-range">38.3 – 48.6</td>
+                <td><span class="badge b-normal">Normal</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- AI EXPLANATION -->
+        <div class="explain-card">
+          <div class="explain-title">🤖 AI Explanation <span class="explain-ai-badge">Gemini AI</span></div>
+          <div class="explain-sub">Generated by Google Gemini 2.5 Flash · For educational purposes only</div>
+
+          <div class="explain-section" style="border-left-color:#0f766e">
+            <div class="es-label">Overview</div>
+            <div class="es-text">Most of your blood count values are within the normal reference range, which is generally a good sign. However, two values — your white blood cell count and neutrophil percentage — are slightly elevated, which your doctor should be aware of.</div>
+          </div>
+
+          <div class="explain-section highlight">
+            <div class="es-label">Values Needing Attention</div>
+            <div class="es-list">
+              <div class="es-item"><span class="es-dot">▸</span> <span><strong>WBC (12.1 ×10⁹/L):</strong> Slightly above the normal range of 4.5–11.0. Elevated white blood cells can indicate the body is fighting an infection, inflammation, or other condition.</span></div>
+              <div class="es-item"><span class="es-dot">▸</span> <span><strong>Neutrophils (78.4%):</strong> Elevated neutrophils often accompany a bacterial infection or physical stress.</span></div>
+              <div class="es-item"><span class="es-dot">▸</span> <span><strong>Folic Acid (3.2 ng/mL):</strong> Below the normal range. Low folate may affect red blood cell production and energy levels.</span></div>
+            </div>
+          </div>
+
+          <div class="explain-section tips">
+            <div class="es-label">Wellness Tips</div>
+            <div class="es-list">
+              <div class="es-item"><span class="es-dot">•</span> <span>Discuss these results with your doctor, especially the elevated WBC.</span></div>
+              <div class="es-item"><span class="es-dot">•</span> <span>Increase folate-rich foods: leafy greens, lentils, fortified cereals.</span></div>
+              <div class="es-item"><span class="es-dot">•</span> <span>Stay hydrated and get adequate rest to support immune function.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DISCLAIMER -->
+        <div class="disclaimer-card">
+          <span class="disc-icon">⚠️</span>
+          <div class="disc-body">
+            <div class="disc-title">Medical Disclaimer</div>
+            <div class="disc-text">MediScan AI is for educational and informational purposes only. It does not provide medical diagnosis, treatment, or professional medical advice. Always consult a licensed healthcare professional before making any health-related decisions.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div>
+        <div class="side-card">
+          <div class="sc-title">Report Information</div>
+          <div class="info-row"><span class="info-label">Patient</span><span class="info-val">Ahmed Ali</span></div>
+          <div class="info-row"><span class="info-label">Report Date</span><span class="info-val">May 24, 2025</span></div>
+          <div class="info-row"><span class="info-label">Report Type</span><span class="info-val">CBC</span></div>
+          <div class="info-row"><span class="info-label">Tests Found</span><span class="info-val">8 tests</span></div>
+          <div class="info-row"><span class="info-label">Abnormal Values</span><span class="info-val" style="color:#dc2626">3 values</span></div>
+          <div class="info-row"><span class="info-label">AI Explanation</span><span class="info-val" style="color:#15803d">Generated</span></div>
+          <div class="info-row"><span class="info-label">Status</span><span class="info-val" style="color:#15803d">Done</span></div>
+        </div>
+
+        <div class="side-card">
+          <div class="sc-title">Actions</div>
+          <button class="pdf-btn">📄 Download PDF Report</button>
+          <button class="share-btn">🔗 Share with Doctor</button>
+          <button style="width:100%;padding:9px;background:#fff;color:#475569;border-radius:8px;font-size:13px;font-weight:600;border:1.5px solid #e2e8f0;cursor:pointer;margin-top:8px">✏️ Edit Report Title</button>
+          <button style="width:100%;padding:9px;background:#fff;color:#dc2626;border-radius:8px;font-size:13px;font-weight:600;border:1.5px solid #fecaca;cursor:pointer;margin-top:8px">🗑 Delete Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+LABORATORY REPORT
+Patient: Sample Patient
+Date: 2024-01-15
+
+COMPREHENSIVE METABOLIC PANEL
+
+Test Name                  Value        Unit        Reference Range     
+Glucose                    98          mg/dL       70-99
+Calcium                    9.4         mg/dL       8.5-10.5
+Sodium                     140         mmol/L      136-145
+Potassium                  4.2         mmol/L      3.5-5.0
+Chloride                   102         mmol/L      98-107
+CO2                        25          mmol/L      22-30
+BUN                        15          mg/dL       7-20
+Creatinine                 0.9         mg/dL       0.6-1.2
+BUN/Creatinine Ratio       16.7                    10-20
+
+LIVER FUNCTION TESTS
+
+ALT (SGPT)                 28          U/L         0-40
+AST (SGOT)                 24          U/L         0-40
+Alkaline Phosphatase       72          U/L         30-120
+Total Bilirubin            0.7         mg/dL       0.2-1.2
+Albumin                    4.3         g/dL        3.5-5.0
+Total Protein              7.1         g/dL        6.0-8.0
+
+DIABETES SCREENING
+
+HbA1c                      5.4         %           <5.7
