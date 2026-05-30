@@ -32,15 +32,24 @@ export default function ReportHistory() {
   const [editNotes, setEditNotes] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
 
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
   useEffect(() => {
     fetchReports();
   }, []);
 
+  // Smart auto-refresh: every 5 s while any report is pending, every 30 s otherwise
+  useEffect(() => {
+    const hasPending = reports.some((r) => r.status === 'processing' || r.status === 'queued');
+    const interval = setInterval(fetchReports, hasPending ? 5_000 : 30_000);
+    return () => clearInterval(interval);
+  }, [reports]);
+
   const fetchReports = async () => {
     try {
-      setLoading(true);
       const data = await listReports(100, 0);
       setReports(data);
+      setLastUpdated(new Date());
       setError(null);
     } catch {
       setError('Failed to load reports. Please try again.');
@@ -167,6 +176,11 @@ export default function ReportHistory() {
             <h1 className="text-3xl font-bold mb-1" style={{ color: '#DDE6ED' }}>Report History</h1>
             <p style={{ color: '#9DB2BF' }}>
               {reports.length} report{reports.length !== 1 ? 's' : ''} total
+              {lastUpdated && (
+                <span className="ml-2 text-xs" style={{ color: '#526D82' }}>
+                  · updated {lastUpdated.toLocaleTimeString()}
+                </span>
+              )}
             </p>
           </div>
           <button

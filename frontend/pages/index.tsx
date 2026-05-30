@@ -38,7 +38,7 @@ export default function Home() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
 
-  // Load dashboard stats
+  // Load dashboard stats and auto-refresh every 30 s
   useEffect(() => {
     const loadStats = async () => {
       try {
@@ -52,6 +52,8 @@ export default function Home() {
       }
     };
     loadStats();
+    const interval = setInterval(loadStats, 30_000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleFileSelect = async (file: File) => {
