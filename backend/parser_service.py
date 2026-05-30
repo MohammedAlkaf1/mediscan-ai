@@ -176,34 +176,50 @@ def classify_status(value_numeric: Optional[float], ref_low: Optional[float], re
     return "unknown"
 
 
+def _normalize_line(line: str) -> str:
+    """Strip common abbreviations like '(WBC)' from test names and unwrap (<200) refs."""
+    # Remove short uppercase abbreviations in parens: "White Blood Cells (WBC)" → "White Blood Cells"
+    line = re.sub(r'\s*\([A-Z]{2,6}\)\s*', ' ', line).strip()
+    # Unwrap (<200) → <200 and (>40) → >40 so patterns can match them
+    line = re.sub(r'\(\s*([<>][^)]+)\)', r'\1', line)
+    return line
+
+
 def parse_lab_line(line: str) -> Optional[ParsedLabResult]:
     """
     Parse a single line of lab results
-    
+
     Example formats:
     - "Glucose 110 mg/dL 70-99"
     - "WBC 6.2 x10^3/uL (4.0 - 11.0)"
     - "HbA1c 5.7 % 4.0-5.6"
     - "Hemoglobin: 13.5 g/dL [12.0-16.0]"
+    - "White Blood Cells (WBC): 7.2 x10^3/uL (4.0-11.0)"
+    - "Total Cholesterol: 215 mg/dL (<200)"
     """
     line = line.strip()
-    
+
     if not line or len(line) < 5:
         return None
-    
+
+    line = _normalize_line(line)
+
     # Common patterns
     patterns = [
         # Pattern 1: TestName Value Unit RefLow-RefHigh
         r'^([A-Za-z][A-Za-z0-9\s\-/]+?)\s+([\d.,]+)\s*([A-Za-z/%^0-9]+)?\s+[\(\[]?([\d.]+)\s*-\s*([\d.]+)[\)\]]?',
-        
+
         # Pattern 2: TestName: Value Unit [RefLow-RefHigh]
         r'^([A-Za-z][A-Za-z0-9\s\-/]+?):\s*([\d.,]+)\s*([A-Za-z/%^0-9]+)?\s*[\[\(]?([\d.]+)\s*-\s*([\d.]+)[\]\)]?',
-        
+
         # Pattern 3: TestName Value (RefLow - RefHigh) Unit
         r'^([A-Za-z][A-Za-z0-9\s\-/]+?)\s+([\d.,]+)\s*[\(\[]?([\d.]+)\s*-\s*([\d.]+)[\)\]]?\s*([A-Za-z/%^0-9]+)?',
-        
+
         # Pattern 4: TestName Value Unit <RefHigh or >RefLow
         r'^([A-Za-z][A-Za-z0-9\s\-/]+?)\s+([\d.,]+)\s*([A-Za-z/%^0-9]+)?\s*([<>]\s*[\d.]+)',
+
+        # Pattern 5: TestName: Value Unit <RefHigh or >RefLow (colon variant)
+        r'^([A-Za-z][A-Za-z0-9\s\-/]+?):\s*([\d.,]+)\s*([A-Za-z/%^0-9]+)?\s*([<>]\s*[\d.]+)',
     ]
     
     for pattern in patterns:
@@ -245,7 +261,7 @@ def parse_lab_line(line: str) -> Optional[ParsedLabResult]:
                         pass
                 
                 # If ref range includes <> symbol
-                if len(groups) > 3 and '<' in str(groups[-1]):
+                if len(groups) > 3 and ('<' in str(groups[-1]) or '>' in str(groups[-1])):
                     ref_text = groups[-1]
                     ref_low, ref_high = parse_reference_range(groups[-1])
                 
