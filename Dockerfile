@@ -27,5 +27,4 @@ RUN mkdir -p /app/uploads
 
 EXPOSE 8080
 
-# Use a startup script to handle PORT variable reliably
-CMD ["/bin/bash", "-c", "exec uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"]
+CMD ["python", "start.py"]
