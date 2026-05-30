@@ -149,7 +149,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
             <span className="text-sm font-semibold" style={{ color: '#526D82' }}>MediScan AI</span>
-            <span className="text-xs" style={{ color: '#9DB2BF' }}>Educational use only</span>
             <span className="text-xs" style={{ color: '#9DB2BF' }}>© {new Date().getFullYear()} MediScan AI</span>
           </div>
         </div>

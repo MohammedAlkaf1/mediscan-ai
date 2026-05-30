@@ -84,9 +84,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect, loading = fal
                   </span>
                 ))}
               </div>
-              <p className="text-xs mt-2" style={{ color: '#9DB2BF' }}>
-                Maximum file size: 10 MB
-              </p>
             </div>
           )}
         </div>

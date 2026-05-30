@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import FileUploader from '@/components/FileUploader';
-import DisclaimerBox from '@/components/DisclaimerBox';
-import { uploadReport, createDemoReport, getReportStatus, getDashboardStats, DashboardStats } from '@/lib/api';
+import { uploadReport, getReportStatus, getDashboardStats, DashboardStats } from '@/lib/api';
 import { useAuth } from '@/lib/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMagnifyingGlass,
   faChartBar,
   faLightbulb,
-  faBolt,
   faCircleExclamation,
   faXmark,
   faCloudArrowUp,
@@ -20,13 +18,7 @@ import {
   faClipboardList,
   faArrowUp,
   faArrowDown,
-  faCheckCircle,
-  faMicroscope,
-  faHeartPulse,
 } from '@fortawesome/free-solid-svg-icons';
-
-const DISCLAIMER =
-  'MediScan AI is for educational and informational purposes only. It does not provide medical diagnosis, treatment, or professional medical advice. Always consult a licensed healthcare professional before making any health-related decisions.';
 
 // Processing step messages
 const STEPS = [
@@ -125,19 +117,6 @@ export default function Home() {
     };
 
     await check();
-  };
-
-  const handleDemoReport = async () => {
-    setError(null);
-    setLoading(true);
-    setStepIndex(0);
-    try {
-      const report = await createDemoReport();
-      router.push(`/reports/${report.id}`);
-    } catch {
-      setError('Failed to create demo report. Please try again.');
-      setLoading(false);
-    }
   };
 
   const statItems = [
@@ -304,25 +283,6 @@ export default function Home() {
               </button>
             </div>
           )}
-        </div>
-
-        {/* Demo button */}
-        <div className="text-center mb-12">
-          <button
-            onClick={handleDemoReport}
-            disabled={loading}
-            className="inline-flex items-center gap-2 px-6 py-3 border-2 shadow-sm text-base font-semibold rounded-xl transition-all disabled:opacity-50"
-            style={{ borderColor: '#9DB2BF', color: '#DDE6ED', backgroundColor: 'transparent' }}
-          >
-            <FontAwesomeIcon icon={faBolt} className="w-5 h-5" style={{ color: '#9DB2BF' }} />
-            Try Demo Report
-          </button>
-          <p className="mt-2 text-sm" style={{ color: '#9DB2BF' }}>See how it works with sample data — no upload needed</p>
-        </div>
-
-        {/* Medical disclaimer */}
-        <div className="mb-10">
-          <DisclaimerBox message={DISCLAIMER} />
         </div>
 
         {/* ── Feature cards ─────────────────────────────────────────────────── */}

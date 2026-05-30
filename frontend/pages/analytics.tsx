@@ -83,9 +83,6 @@ export default function AnalyticsPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2" style={{ color: '#DDE6ED' }}>Health Trends</h1>
-          <p style={{ color: '#9DB2BF' }}>
-            Track how your lab values have changed across multiple reports over time.
-          </p>
         </div>
 
         {loadingOverview ? (

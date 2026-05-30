@@ -26,7 +26,7 @@ import auth
 
 # ── Logging ─────────────────────────────────────────────────────────────────
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(name)s – %(message)s",
 )
 logger = logging.getLogger(__name__)
@@ -169,6 +169,7 @@ def process_report(report_id: str, file_path: str, save_report: bool):
 
         if not parsed_results:
             logger.warning(f"[report:{report_id[:8]}] No lab results parsed – saving as empty report")
+            logger.debug(f"[report:{report_id[:8]}] OCR text that produced 0 results:\n{extracted_text}")
 
         for parsed in parsed_results:
             db.add(models.LabResult(
