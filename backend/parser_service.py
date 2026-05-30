@@ -92,10 +92,53 @@ CANONICAL_NAMES = {
 }
 
 
+# Standard reference ranges keyed by canonical name.
+# Used as fallback when the OCR text doesn't include a reference range.
+# Values: (ref_low, ref_high) — None means no bound on that side.
+STANDARD_RANGES: Dict[str, Tuple[Optional[float], Optional[float]]] = {
+    "White Blood Cells":   (4.5, 11.0),
+    "Red Blood Cells":     (4.0, 5.9),
+    "Hemoglobin":          (12.0, 17.5),
+    "Hematocrit":          (36.0, 53.0),
+    "Platelets":           (150.0, 400.0),
+    "Total Cholesterol":   (None, 200.0),
+    "LDL Cholesterol":     (None, 130.0),
+    "HDL Cholesterol":     (40.0, None),
+    "Triglycerides":       (None, 150.0),
+    "Glucose":             (70.0, 99.0),
+    "Hemoglobin A1c":      (None, 5.7),
+    "Creatinine":          (0.5, 1.3),
+    "Blood Urea Nitrogen": (7.0, 20.0),
+    "ALT":                 (7.0, 56.0),
+    "AST":                 (10.0, 40.0),
+    "Alkaline Phosphatase":(44.0, 147.0),
+    "Sodium":              (136.0, 145.0),
+    "Potassium":           (3.5, 5.1),
+    "Calcium":             (8.5, 10.5),
+    "TSH":                 (0.5, 4.5),
+}
+
+
 def get_canonical_name(test_name: str) -> str:
     """Get canonical name for a test"""
     test_lower = test_name.lower().strip()
     return CANONICAL_NAMES.get(test_lower, test_name)
+
+
+def apply_standard_ranges(result: "ParsedLabResult") -> "ParsedLabResult":
+    """Fill in ref_low/ref_high from STANDARD_RANGES when the parser found none."""
+    if result.ref_low is None and result.ref_high is None and result.canonical_name in STANDARD_RANGES:
+        std_low, std_high = STANDARD_RANGES[result.canonical_name]
+        result.ref_low = std_low
+        result.ref_high = std_high
+        if std_low and std_high:
+            result.ref_text = f"{std_low}-{std_high}"
+        elif std_high:
+            result.ref_text = f"<{std_high}"
+        elif std_low:
+            result.ref_text = f">{std_low}"
+        result.status = classify_status(result.value_numeric, result.ref_low, result.ref_high)
+    return result
 
 
 def parse_value_and_unit(value_str: str) -> Tuple[Optional[float], Optional[str]]:
@@ -406,7 +449,7 @@ def parse_lab_results(text: str) -> List[ParsedLabResult]:
     if table_results:
         results.extend(table_results)
         logger.info(f"Parsed {len(table_results)} lab results from table format")
-    
+
     # Then try single-line parser for any remaining data
     for line in lines:
         parsed = parse_lab_line(line)
@@ -415,7 +458,10 @@ def parse_lab_results(text: str) -> List[ParsedLabResult]:
             if not any(r.test_name == parsed.test_name for r in results):
                 results.append(parsed)
                 logger.debug(f"Line parsed: {parsed.test_name} = {parsed.value_text} {parsed.unit} ({parsed.status})")
-    
+
+    # Apply standard reference ranges as fallback for unknown-status results
+    results = [apply_standard_ranges(r) for r in results]
+
     logger.info(f"Total parsed: {len(results)} lab results from text")
     return results
 
