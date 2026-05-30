@@ -10,13 +10,14 @@ RUN apt-get update && apt-get install -y \
     libgomp1 \
     poppler-utils \
     libpq-dev \
+    tesseract-ocr \
+    tesseract-ocr-eng \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 # Copy and install Python dependencies
 COPY backend/requirements.txt .
-RUN pip install --no-cache-dir numpy==1.26.4
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
