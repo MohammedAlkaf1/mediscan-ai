@@ -78,8 +78,10 @@ export default function Home() {
   };
 
   const pollReportStatus = async (reportId: string) => {
-    const maxAttempts = 90; // 90s timeout
+    const maxAttempts = 180; // 3 min timeout
     let attempts = 0;
+    let networkErrors = 0;
+    const maxNetworkErrors = 5; // tolerate brief outages
 
     const stepTimers = [
       setTimeout(() => setStepIndex(2), 3000),
@@ -92,6 +94,7 @@ export default function Home() {
     const check = async (): Promise<void> => {
       try {
         const status = await getReportStatus(reportId);
+        networkErrors = 0; // reset on success
 
         if (status.status === 'done') {
           clearTimers();
@@ -103,16 +106,22 @@ export default function Home() {
           setLoading(false);
         } else if (attempts < maxAttempts) {
           attempts++;
-          setTimeout(check, 1000);
+          setTimeout(check, 2000);
         } else {
           clearTimers();
           setError('Processing is taking longer than expected. Please check the History page.');
           setLoading(false);
         }
       } catch {
-        clearTimers();
-        setError('Lost connection while processing. Please check the History page.');
-        setLoading(false);
+        networkErrors++;
+        if (networkErrors <= maxNetworkErrors && attempts < maxAttempts) {
+          attempts++;
+          setTimeout(check, 3000); // wait longer after a network error
+        } else {
+          clearTimers();
+          setError('Lost connection while processing. Please check the History page.');
+          setLoading(false);
+        }
       }
     };
 
@@ -334,7 +343,7 @@ export default function Home() {
               <div>
                 <h3 className="text-xl font-bold mb-1">You have {stats.total_reports} report{stats.total_reports !== 1 ? 's' : ''}</h3>
                 <p className="text-sm" style={{ color: '#DDE6ED' }}>
-                  View your history or track health trends over time
+                  View your uploaded reports and analytics
                 </p>
               </div>
               <div className="flex gap-3 flex-wrap">
