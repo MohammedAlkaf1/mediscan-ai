@@ -53,10 +53,11 @@ export default function Home() {
         setStatsLoading(false);
       }
     };
+    if (!isAuthenticated) return;
     loadStats();
     const interval = setInterval(loadStats, 30_000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isAuthenticated]);
 
   const handleFileSelect = async (file: File) => {
     setError(null);
@@ -187,7 +188,7 @@ export default function Home() {
         </div>
 
         {/* ── Stats row ─────────────────────────────────────────────────────── */}
-        {(stats || statsLoading) && (
+        {isAuthenticated && (stats || statsLoading) && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {statItems.map((item) => (
               <div
