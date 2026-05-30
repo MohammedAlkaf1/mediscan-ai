@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import StatusBadge from '@/components/StatusBadge';
 import { listReports, deleteReport, updateReport, ReportListItem } from '@/lib/api';
+import { useAuth } from '@/lib/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEye, faPenToSquare, faTrashCan, faPlus, faMagnifyingGlass,
@@ -14,6 +15,7 @@ type StatusFilter = 'all' | 'done' | 'processing' | 'failed' | 'queued';
 
 export default function ReportHistory() {
   const router = useRouter();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [reports, setReports] = useState<ReportListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,15 +37,18 @@ export default function ReportHistory() {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!isAuthenticated) { router.replace('/auth/login'); return; }
     fetchReports();
-  }, []);
+  }, [isAuthenticated, authLoading]);
 
   // Smart auto-refresh: every 5 s while any report is pending, every 30 s otherwise
   useEffect(() => {
+    if (!isAuthenticated) return;
     const hasPending = reports.some((r) => r.status === 'processing' || r.status === 'queued');
     const interval = setInterval(fetchReports, hasPending ? 5_000 : 30_000);
     return () => clearInterval(interval);
-  }, [reports]);
+  }, [reports, isAuthenticated]);
 
   const fetchReports = async () => {
     try {
