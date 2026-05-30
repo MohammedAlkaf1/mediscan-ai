@@ -10,6 +10,8 @@ import {
   faRightFromBracket,
   faUserPlus,
   faRightToBracket,
+  faMicroscope,
+  faHeartPulse,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface LayoutProps {
@@ -45,21 +47,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
-                style={{ backgroundColor: '#526D82' }}
+                className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg relative overflow-hidden"
+                style={{ background: 'linear-gradient(135deg, #2d6a9f 0%, #526D82 60%, #1a4a6b 100%)' }}
               >
-                {/* Medical cross — clean SVG */}
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <rect x="8.5" y="3"   width="3"  height="14" rx="1.2" fill="white" />
-                  <rect x="3"   y="8.5" width="14" height="3"  rx="1.2" fill="white" />
-                </svg>
+                {/* Subtle pulse ring */}
+                <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ boxShadow: '0 0 0 3px rgba(82,109,130,0.3)' }} />
+                <FontAwesomeIcon icon={faMicroscope} className="w-5 h-5 text-white relative z-10" />
               </div>
               <div className="leading-tight">
-                <span className="text-lg font-bold tracking-tight" style={{ color: '#1a1a1a' }}>
-                  Medi<span style={{ color: '#526D82' }}>Scan</span>
-                  <span className="font-light text-sm ml-1" style={{ color: '#9DB2BF' }}>AI</span>
-                </span>
-                <p className="text-xs font-medium" style={{ color: '#9DB2BF' }}>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-lg font-extrabold tracking-tight" style={{ color: '#1a1a1a' }}>
+                    Medi<span style={{ color: '#2d6a9f' }}>Scan</span>
+                  </span>
+                  <span
+                    className="text-xs font-bold px-1.5 py-0.5 rounded-md"
+                    style={{ backgroundColor: '#DDE6ED', color: '#526D82' }}
+                  >
+                    AI
+                  </span>
+                </div>
+                <p className="text-xs font-medium flex items-center gap-1" style={{ color: '#9DB2BF' }}>
+                  <FontAwesomeIcon icon={faHeartPulse} className="w-2.5 h-2.5" style={{ color: '#e05c5c' }} />
                   Lab Report Analysis
                 </p>
               </div>

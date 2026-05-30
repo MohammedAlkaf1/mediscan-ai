@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowUp, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCloudArrowUp, faCircleCheck, faFolderOpen, faFileMedical } from '@fortawesome/free-solid-svg-icons';
 
 interface FileUploaderProps {
   onFileSelect: (file: File) => void;
@@ -64,8 +64,11 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect, loading = fal
             </div>
           ) : (
             <div className="space-y-3">
-              <p className="text-xl font-bold" style={{ color: '#27374D' }}>
-                {isDragActive ? '📁 Drop the file here' : 'Drag & drop your lab report'}
+              <p className="text-xl font-bold flex items-center gap-2" style={{ color: '#27374D' }}>
+                {isDragActive
+                  ? <><FontAwesomeIcon icon={faFolderOpen} className="w-5 h-5" style={{ color: '#526D82' }} /> Drop the file here</>
+                  : <><FontAwesomeIcon icon={faFileMedical} className="w-5 h-5" style={{ color: '#526D82' }} /> Drag & drop your lab report</>
+                }
               </p>
               <p className="text-sm font-medium" style={{ color: '#526D82' }}>
                 or click to browse

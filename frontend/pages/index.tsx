@@ -13,6 +13,16 @@ import {
   faBolt,
   faCircleExclamation,
   faXmark,
+  faCloudArrowUp,
+  faFlask,
+  faRobot,
+  faCircleCheck,
+  faClipboardList,
+  faArrowUp,
+  faArrowDown,
+  faCheckCircle,
+  faMicroscope,
+  faHeartPulse,
 } from '@fortawesome/free-solid-svg-icons';
 
 const DISCLAIMER =
@@ -20,11 +30,11 @@ const DISCLAIMER =
 
 // Processing step messages
 const STEPS = [
-  { key: 'uploading',    label: 'Uploading report…',         icon: '📤' },
-  { key: 'extracting',   label: 'Extracting text (OCR)…',    icon: '🔍' },
-  { key: 'parsing',      label: 'Parsing lab results…',      icon: '🧪' },
-  { key: 'ai',           label: 'Generating AI explanation…', icon: '🤖' },
-  { key: 'finalizing',   label: 'Finalizing report…',        icon: '✅' },
+  { key: 'uploading',  label: 'Uploading report…',          faIcon: faCloudArrowUp },
+  { key: 'extracting', label: 'Extracting text (OCR)…',     faIcon: faMagnifyingGlass },
+  { key: 'parsing',    label: 'Parsing lab results…',       faIcon: faFlask },
+  { key: 'ai',         label: 'Generating AI explanation…', faIcon: faRobot },
+  { key: 'finalizing', label: 'Finalizing report…',         faIcon: faCircleCheck },
 ];
 
 export default function Home() {
@@ -134,28 +144,32 @@ export default function Home() {
     {
       label: 'Total Reports',
       value: stats?.total_reports ?? '–',
-      icon: '📋',
+      faIcon: faClipboardList,
+      iconBg: '#526D82',
       bg: '#DDE6ED',
       textColor: '#27374D',
     },
     {
       label: 'Normal Results',
       value: stats?.result_counts.normal ?? '–',
-      icon: '✅',
+      faIcon: faCircleCheck,
+      iconBg: '#16a34a',
       bg: '#f0fdf4',
       textColor: '#16a34a',
     },
     {
       label: 'High Results',
       value: stats?.result_counts.high ?? '–',
-      icon: '⬆️',
+      faIcon: faArrowUp,
+      iconBg: '#dc2626',
       bg: '#fef2f2',
       textColor: '#dc2626',
     },
     {
       label: 'Low Results',
       value: stats?.result_counts.low ?? '–',
-      icon: '⬇️',
+      faIcon: faArrowDown,
+      iconBg: '#d97706',
       bg: '#fffbeb',
       textColor: '#d97706',
     },
@@ -190,18 +204,25 @@ export default function Home() {
             {statItems.map((item) => (
               <div
                 key={item.label}
-                className="rounded-2xl p-5 flex flex-col items-center text-center shadow-sm"
+                className="rounded-2xl p-5 flex items-center gap-4 shadow-sm"
                 style={{ backgroundColor: item.bg }}
               >
-                <span className="text-2xl mb-1">{item.icon}</span>
-                <span className="text-3xl font-bold" style={{ color: item.textColor }}>
-                  {statsLoading ? (
-                    <span className="inline-block w-8 h-6 bg-gray-200 animate-pulse rounded" />
-                  ) : (
-                    item.value
-                  )}
-                </span>
-                <span className="text-xs font-medium mt-1" style={{ color: '#526D82' }}>{item.label}</span>
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm"
+                  style={{ backgroundColor: item.iconBg }}
+                >
+                  <FontAwesomeIcon icon={item.faIcon} className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: '#526D82' }}>{item.label}</p>
+                  <p className="text-3xl font-bold leading-tight" style={{ color: item.textColor }}>
+                    {statsLoading ? (
+                      <span className="inline-block w-8 h-6 bg-gray-200 animate-pulse rounded" />
+                    ) : (
+                      item.value
+                    )}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -227,11 +248,17 @@ export default function Home() {
                       : { opacity: i < stepIndex ? 0.5 : 0.3 }
                   }
                 >
-                  <span className="text-lg flex-shrink-0">
-                    {i < stepIndex ? '✅' : i === stepIndex ? (
-                      <span className="inline-block animate-pulse">{step.icon}</span>
-                    ) : step.icon}
-                  </span>
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{
+                      backgroundColor: i < stepIndex ? '#16a34a' : i === stepIndex ? '#526D82' : '#9DB2BF',
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={i < stepIndex ? faCircleCheck : step.faIcon}
+                      className={`w-3.5 h-3.5 text-white ${i === stepIndex ? 'animate-pulse' : ''}`}
+                    />
+                  </div>
                   <span
                     className="text-sm font-medium"
                     style={{ color: i === stepIndex ? '#27374D' : '#9DB2BF' }}
